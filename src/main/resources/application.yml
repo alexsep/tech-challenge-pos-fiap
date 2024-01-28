@@ -1,1 +1,8 @@
+server:
+  port: 8080
 
+spring:
+  data:
+    mongodb:
+      uri: "${MONGODB_CONNECTION_STRING:mongodb://localhost:27017}"
+      database: "${MONGODB_DATABASE_NAME:restaurante}"
