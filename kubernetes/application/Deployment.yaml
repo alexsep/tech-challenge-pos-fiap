@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restaurante-app
+  namespace: restaurante-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: restaurante-app
+  template:
+    metadata:
+      labels:
+        app: restaurante-app
+    spec:
+      containers:
+        - name: restaurante-app
+          image: alexxsep/postech:1.0.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MONGODB_CONNECTION_STRING
+              value: "mongodb://mongodb.restaurante-db.svc.cluster.local:27017/restaurante"
