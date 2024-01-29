@@ -10,6 +10,8 @@ A infraestrutura da aplicação foi feita de forma que fosse possível executá-
 
 ![](docs/diagramas/infraestrutura.png?raw=true)
 
+Foram criados dois namespaces para separar os contextos, no caso da aplicação foi feita uma configuração com autoscale automático e para o banco de dados apenas subimos uma instância. Os manifestos com as definições dessa infraestrutura podem ser encontrados na pasta `kubernetes` que está na raiz do repositório.
+
 
 ## Executando a aplicação
 Existem 3 formas de executar a aplicação e que estão descritas nos próximos passos.
