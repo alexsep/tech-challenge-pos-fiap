@@ -63,7 +63,7 @@ public class ProdutoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable String id) {
+    public ResponseEntity<?> deletar(@PathVariable String id) {
         this.deletarProdutoUseCase.execute(id);
 
         return ResponseEntity.noContent().build();
@@ -82,7 +82,7 @@ public class ProdutoController {
     @GetMapping
     public ResponseEntity<List<ListarProdutosOutput>> listarProdutos(
             @RequestParam(required = false) CategoriaProduto categoria) {
-        return ResponseEntity.ok(this.listarProdutosUseCase.execute());
+        return ResponseEntity.ok(this.listarProdutosUseCase.execute(categoria));
     }
 
     @GetMapping("/{id}")

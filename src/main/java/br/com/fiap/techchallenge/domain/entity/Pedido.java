@@ -73,6 +73,11 @@ public class Pedido {
             throw new BusinessException("Pedido já está pronto ou finalizado.");
         }
 
+        if (this.statusPagamento.equals(StatusPagamentoPedido.PENDENTE) ||
+                this.statusPagamento.equals(StatusPagamentoPedido.RECUSADO)) {
+            throw new BusinessException("Não foi possível iniciar a preparação pois o pagamento do pedido está pendente.");
+        }
+
         this.status = StatusPedido.EM_PREPARACAO;
         return this;
     }

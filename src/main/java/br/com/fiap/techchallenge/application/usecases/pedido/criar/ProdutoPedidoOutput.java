@@ -17,4 +17,8 @@ public record ProdutoPedidoOutput(
                 produtoPedido.getQuantidade()
         );
     }
+
+    public BigDecimal calcularTotalItem(){
+        return valor.multiply(new BigDecimal(quantidade));
+    }
 }

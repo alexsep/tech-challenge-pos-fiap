@@ -9,6 +9,8 @@ import br.com.fiap.techchallenge.application.usecases.pedido.buscar.BuscarPedido
 import br.com.fiap.techchallenge.application.usecases.pedido.criar.RealizarPedidoCommand;
 import br.com.fiap.techchallenge.application.usecases.pedido.criar.RealizarPedidoOutput;
 import br.com.fiap.techchallenge.application.usecases.pedido.criar.RealizarPedidoUseCase;
+import br.com.fiap.techchallenge.application.usecases.pedido.pagamento.GerarQrCodePagamentoOutput;
+import br.com.fiap.techchallenge.application.usecases.pedido.pagamento.GerarQrCodePagamentoUseCase;
 import br.com.fiap.techchallenge.application.usecases.pedido.pagamento.NotificacaoPagamentoCommand;
 import br.com.fiap.techchallenge.application.usecases.pedido.pagamento.NotificarPagamentoPedidoUseCase;
 import br.com.fiap.techchallenge.infrastructure.persistence.util.exception.BusinessException;
@@ -34,22 +36,25 @@ public class PedidoController {
     private final BuscarPedidoPorIdUseCase buscarPedidoPorIdUseCase;
     private final AtualizarStatusPedidoUseCase atualizarStatusPedidoUseCase;
     private final NotificarPagamentoPedidoUseCase notificarPagamentoPedidoUseCase;
+    private final GerarQrCodePagamentoUseCase gerarQrCodePagamentoUseCase;
+
 
     public PedidoController(RealizarPedidoUseCase realizarPedidoUseCase,
                             BuscarPedidosUseCase buscarPedidosUseCase,
                             BuscarPedidoPorIdUseCase buscarPedidoPorIdUseCase,
                             AtualizarStatusPedidoUseCase atualizarStatusPedidoUseCase,
-                            NotificarPagamentoPedidoUseCase notificarPagamentoPedidoUseCase) {
+                            NotificarPagamentoPedidoUseCase notificarPagamentoPedidoUseCase, GerarQrCodePagamentoUseCase gerarQrCodePagamentoUseCase) {
         this.realizarPedidoUseCase = realizarPedidoUseCase;
         this.buscarPedidosUseCase = buscarPedidosUseCase;
         this.buscarPedidoPorIdUseCase = buscarPedidoPorIdUseCase;
         this.atualizarStatusPedidoUseCase = atualizarStatusPedidoUseCase;
         this.notificarPagamentoPedidoUseCase = notificarPagamentoPedidoUseCase;
+        this.gerarQrCodePagamentoUseCase = gerarQrCodePagamentoUseCase;
     }
 
     @PostMapping(path = "/checkout")
-    public ResponseEntity<RealizarPedidoOutput> fazerCheckout(@RequestBody RealizarPedidoCommand command,
-                                                              UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<RealizarPedidoOutput> realizarPedido(@RequestBody RealizarPedidoCommand command,
+                                                               UriComponentsBuilder uriBuilder) {
         RealizarPedidoOutput pedido = this.realizarPedidoUseCase.execute(command);
 
         final var uri = uriBuilder.path("/v1/pedidos/{id}").buildAndExpand(pedido.id()).toUri();
@@ -57,7 +62,7 @@ public class PedidoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BuscarPedidoOutput>> listarPedidosAtivos() {
+    public ResponseEntity<List<BuscarPedidoOutput>> listarPedidos() {
         return ResponseEntity.ok(this.buscarPedidosUseCase.execute());
     }
 
@@ -83,6 +88,15 @@ public class PedidoController {
             @RequestBody @Valid NotificacaoPagamentoCommand command) {
 
         this.notificarPagamentoPedidoUseCase.execute(command);
+    }
+
+
+    @PostMapping(path = "/{id}/pagamentos")
+    public ResponseEntity<GerarQrCodePagamentoOutput> gerarQrCodePagamentoPedido(
+            @PathVariable @Valid String id) {
+
+
+        return ResponseEntity.ok(this.gerarQrCodePagamentoUseCase.execute(id));
     }
 
 

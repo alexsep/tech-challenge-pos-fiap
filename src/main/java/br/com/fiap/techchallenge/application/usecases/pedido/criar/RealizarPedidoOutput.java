@@ -27,7 +27,7 @@ public record RealizarPedidoOutput(
                 .toList();
 
         final var valorTotal = produtos.stream()
-                .map(ProdutoPedidoOutput::valor)
+                .map(ProdutoPedidoOutput::calcularTotalItem)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         return new RealizarPedidoOutput(
@@ -42,4 +42,5 @@ public record RealizarPedidoOutput(
                 valorTotal
         );
     }
+
 }

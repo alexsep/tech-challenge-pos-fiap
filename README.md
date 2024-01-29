@@ -22,7 +22,7 @@ Existem 3 formas de executar a aplicação e que estão descritas nos próximos 
 
 ### Executar a aplicação e o banco de dados no kubernetes
 
-Para essa forma vamos utilizar a imagem do estado atual do repositório que foi publicada no dockerhub, o nome da imagem é xxxxxxx.
+Para essa forma vamos utilizar a imagem do estado atual do repositório que foi publicada no dockerhub, o nome da imagem é `alexxsep/postech:1.1.0`.
 
 **É necessário ter o kubernetes com o kubectl configurado em sua máquina (durante os testes foi utilizado o Docker Desktop com o Kubernetes ativo).** 
 
@@ -30,17 +30,17 @@ Para essa forma vamos utilizar a imagem do estado atual do repositório que foi 
 
 Primeiro é necessário subir a estrutura do banco de dados, essa estrutura fica em um namespace específico.
 - Acesse o diretório `kubernetes/database`
-- Execute o comando: criar namespace TODO
-- Execute o comando: aplicar deployment
-- Execute o comando: aplicar service
+- Execute o comando: `kubectl create namespace restaurante-db`
+- Execute o comando: `kubectl apply -f Deployment.yaml`
+- Execute o comando: `kubectl apply -f Service.yaml`
    
 
 Após isso podemos subir a aplicação:
 - Acesse o diretório `kubernetes/application`
-- Execute o comando: criar namespace TODO
-- Execute o comando: aplicar deployment
-- Execute o comando: aplicar service
-- Execute o comando: aplicar hpa
+- Execute o comando: `kubectl create namespace restaurante-app`
+- Execute o comando: `kubectl apply -f Deployment.yaml`
+- Execute o comando: `kubectl apply -f Service.yaml`
+- Execute o comando: `kubectl apply -f hpa.yaml`
 
 ***Caso queira utilizar outro serviço de banco de dados basta alterar o `Deployment.yaml` com a configuração da string de conexão do banco na variável de ambiente `MONGODB_CONNECTION_STRING`. Nesse caso não é necessário subir a estrutura do banco de dados que foi feita nos passos anteriores***
 
@@ -57,6 +57,11 @@ As APIs disponíveis são:
 3. Busca de Produtos por Categoria
 4. Criação de pedidos sem identificação do cliente, pedido com o cliente, busca de Pedidos e atualização de status
 5. Realização e confirmação de pagamentos 
+    
+O pagamento do pedido apenas simula uma integração com meio de pagamento para gerar um QRCode. Com base nisso, as APIS de pagamento funcionam da seguinte forma:
+- POST `v1/pedidos/:pedidoId/pagamentos` apenas gera um QRCode simulando uma integração com um meio de pagamento. Essa API não muda nenhum status no pedido.
+- PUT `v1/pedidos/notifications` recebe o que seria a resposta de um webhook do meio de pagamento. O pedido é atualizado com base no request body recebido por essa API.
+
 
 ### Ordem de execução das APIs
 ***Para realizar pedidos é necessário cadastrar pelo menos 1 produto***

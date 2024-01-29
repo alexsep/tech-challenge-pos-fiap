@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: restaurante-app
-          image: alexxsep/postech:1.0.0
+          image: alexxsep/postech:1.1.0
           ports:
             - containerPort: 8080
           env:

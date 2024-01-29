@@ -1,6 +1,7 @@
 package br.com.fiap.techchallenge.application.usecases.produto.listar;
 
 import br.com.fiap.techchallenge.application.gateways.ProdutoGateway;
+import br.com.fiap.techchallenge.infrastructure.persistence.enums.CategoriaProduto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,14 @@ public class ListarProdutosUseCase {
     }
 
 
-    public List<ListarProdutosOutput> execute() {
+    public List<ListarProdutosOutput> execute(CategoriaProduto categoriaProduto) {
+        if (Objects.nonNull(categoriaProduto)) {
+            return this.produtoGateway.findByCategoria(categoriaProduto)
+                    .stream()
+                    .map(ListarProdutosOutput::from)
+                    .toList();
+        }
+
         return this.produtoGateway.findAll()
                 .stream()
                 .map(ListarProdutosOutput::from)

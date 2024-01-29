@@ -3,6 +3,7 @@ package br.com.fiap.techchallenge.infrastructure.gateways;
 import br.com.fiap.techchallenge.application.gateways.ProdutoGateway;
 import br.com.fiap.techchallenge.domain.entity.Produto;
 import br.com.fiap.techchallenge.infrastructure.persistence.entities.ProdutoMongoEntity;
+import br.com.fiap.techchallenge.infrastructure.persistence.enums.CategoriaProduto;
 import br.com.fiap.techchallenge.infrastructure.persistence.repository.ProdutoRepository;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,14 @@ public class ProdutoRepositoryGateway implements ProdutoGateway {
     @Override
     public List<Produto> findAll() {
         return this.produtoRepository.findAll()
+                .stream()
+                .map(ProdutoMongoEntity::toEntity)
+                .toList();
+    }
+
+    @Override
+    public List<Produto> findByCategoria(CategoriaProduto categoria) {
+        return this.produtoRepository.findByCategoria(categoria)
                 .stream()
                 .map(ProdutoMongoEntity::toEntity)
                 .toList();

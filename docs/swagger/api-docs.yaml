@@ -1,0 +1,701 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /v1/produtos:
+    get:
+      tags:
+      - produto-controller
+      operationId: listarProdutos
+      parameters:
+      - name: categoria
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - LANCHE
+          - ACOMPANHAMENTO
+          - BEBIDA
+          - SOBREMESA
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ListarProdutosOutput'
+    put:
+      tags:
+      - produto-controller
+      operationId: atualizar
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AtualizarProdutoCommand'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AtualizarProdutoOutput'
+    post:
+      tags:
+      - produto-controller
+      operationId: salvar
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CriarProdutoCommand'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CriarProdutoOutput'
+  /v1/pedidos/{id}:
+    get:
+      tags:
+      - pedido-controller
+      operationId: buscar
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BuscarPedidoOutput'
+    put:
+      tags:
+      - pedido-controller
+      operationId: atualizarStatusPedido
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AtualizarStatusPedidoCommand'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AtualizarStatusPedidoOutput'
+  /v1/pedidos/notifications:
+    put:
+      tags:
+      - pedido-controller
+      operationId: notificacaoPagamento
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificacaoPagamentoCommand'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /v1/clientes:
+    get:
+      tags:
+      - cliente-controller
+      operationId: listar
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ListarClientesOutput'
+    put:
+      tags:
+      - cliente-controller
+      operationId: atualizar_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AtualizarClienteCommand'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AtualizarClienteOutput'
+    post:
+      tags:
+      - cliente-controller
+      operationId: salvar_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SalvarClienteCommand'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SalvarClienteOutput'
+  /v1/clientes/{id}/desativar:
+    put:
+      tags:
+      - cliente-controller
+      operationId: desativar
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DesativarClienteOutput'
+  /v1/pedidos/{id}/pagamentos:
+    post:
+      tags:
+      - pedido-controller
+      operationId: gerarQrCodePagamentoPedido
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GerarQrCodePagamentoOutput'
+  /v1/pedidos/checkout:
+    post:
+      tags:
+      - pedido-controller
+      operationId: realizarPedido
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RealizarPedidoCommand'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RealizarPedidoOutput'
+  /v1/produtos/{id}:
+    get:
+      tags:
+      - produto-controller
+      operationId: buscarProdutoPorId
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BuscarProdutoOutput'
+    delete:
+      tags:
+      - produto-controller
+      operationId: deletar
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /v1/pedidos:
+    get:
+      tags:
+      - pedido-controller
+      operationId: listarPedidos
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BuscarPedidoOutput'
+  /v1/clientes/{id}:
+    get:
+      tags:
+      - cliente-controller
+      operationId: buscar_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BuscarClienteOutput'
+components:
+  schemas:
+    AtualizarProdutoCommand:
+      required:
+      - categoria
+      - descricao
+      - id
+      - imagens
+      - nome
+      - valor
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        categoria:
+          type: string
+          enum:
+          - LANCHE
+          - ACOMPANHAMENTO
+          - BEBIDA
+          - SOBREMESA
+        valor:
+          minimum: 1
+          type: number
+        descricao:
+          type: string
+        imagens:
+          type: array
+          items:
+            type: string
+    AtualizarProdutoOutput:
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        categoria:
+          type: string
+          enum:
+          - LANCHE
+          - ACOMPANHAMENTO
+          - BEBIDA
+          - SOBREMESA
+        valor:
+          type: number
+        descricao:
+          type: string
+        imagens:
+          type: array
+          items:
+            type: string
+    AtualizarStatusPedidoCommand:
+      required:
+      - idPedido
+      - novoStatus
+      type: object
+      properties:
+        idPedido:
+          type: string
+        novoStatus:
+          type: string
+          enum:
+          - RECEBIDO
+          - EM_PREPARACAO
+          - PRONTO
+          - FINALIZADO
+    AtualizarStatusPedidoOutput:
+      type: object
+      properties:
+        id:
+          type: string
+        numero:
+          type: integer
+          format: int32
+        clienteId:
+          type: string
+        nomeCliente:
+          type: string
+        dataPedido:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - RECEBIDO
+          - EM_PREPARACAO
+          - PRONTO
+          - FINALIZADO
+        produtos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProdutoPedidoOutput'
+        totalPedido:
+          type: number
+    ProdutoPedidoOutput:
+      type: object
+      properties:
+        nome:
+          type: string
+        valor:
+          type: number
+        quantidade:
+          type: integer
+          format: int32
+    NotificacaoPagamentoCommand:
+      required:
+      - aproved
+      - idPedido
+      type: object
+      properties:
+        idPedido:
+          type: string
+        aproved:
+          type: boolean
+    AtualizarClienteCommand:
+      required:
+      - cpf
+      - email
+      - id
+      - nome
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        cpf:
+          type: string
+        email:
+          type: string
+    AtualizarClienteOutput:
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        cpf:
+          type: string
+        email:
+          type: string
+        ativo:
+          type: boolean
+    DesativarClienteOutput:
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        cpf:
+          type: string
+        email:
+          type: string
+        ativo:
+          type: boolean
+    CriarProdutoCommand:
+      required:
+      - categoria
+      - descricao
+      - imagens
+      - nome
+      - valor
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        categoria:
+          type: string
+          enum:
+          - LANCHE
+          - ACOMPANHAMENTO
+          - BEBIDA
+          - SOBREMESA
+        valor:
+          minimum: 1
+          type: number
+        descricao:
+          type: string
+        imagens:
+          type: array
+          items:
+            type: string
+    CriarProdutoOutput:
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        categoria:
+          type: string
+          enum:
+          - LANCHE
+          - ACOMPANHAMENTO
+          - BEBIDA
+          - SOBREMESA
+        valor:
+          type: number
+        descricao:
+          type: string
+        imagens:
+          type: array
+          items:
+            type: string
+    GerarQrCodePagamentoOutput:
+      type: object
+      properties:
+        idPedido:
+          type: string
+        totalPedido:
+          type: number
+        qrCode:
+          type: string
+    ProdutoPedidoCommand:
+      required:
+      - idProduto
+      - quantidade
+      type: object
+      properties:
+        idProduto:
+          type: string
+        nomeProduto:
+          type: string
+        quantidade:
+          minimum: 1
+          type: integer
+          format: int32
+    RealizarPedidoCommand:
+      required:
+      - produtos
+      type: object
+      properties:
+        clienteId:
+          type: string
+        produtos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProdutoPedidoCommand'
+    RealizarPedidoOutput:
+      type: object
+      properties:
+        id:
+          type: string
+        numero:
+          type: integer
+          format: int32
+        clienteId:
+          type: string
+        nomeCliente:
+          type: string
+        dataPedido:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - RECEBIDO
+          - EM_PREPARACAO
+          - PRONTO
+          - FINALIZADO
+        statusPagamento:
+          type: string
+          enum:
+          - PENDENTE
+          - RECUSADO
+          - APROVADO
+        produtos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProdutoPedidoOutput'
+        totalPedido:
+          type: number
+    SalvarClienteCommand:
+      required:
+      - cpf
+      - email
+      - nome
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        cpf:
+          type: string
+        email:
+          type: string
+    SalvarClienteOutput:
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        cpf:
+          type: string
+        email:
+          type: string
+        ativo:
+          type: boolean
+    ListarProdutosOutput:
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        categoria:
+          type: string
+          enum:
+          - LANCHE
+          - ACOMPANHAMENTO
+          - BEBIDA
+          - SOBREMESA
+        valor:
+          type: number
+        descricao:
+          type: string
+        imagens:
+          type: array
+          items:
+            type: string
+    BuscarProdutoOutput:
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        categoria:
+          type: string
+          enum:
+          - LANCHE
+          - ACOMPANHAMENTO
+          - BEBIDA
+          - SOBREMESA
+        valor:
+          type: number
+        descricao:
+          type: string
+        imagens:
+          type: array
+          items:
+            type: string
+    BuscarPedidoOutput:
+      type: object
+      properties:
+        id:
+          type: string
+        numero:
+          type: integer
+          format: int32
+        clienteId:
+          type: string
+        nomeCliente:
+          type: string
+        dataPedido:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - RECEBIDO
+          - EM_PREPARACAO
+          - PRONTO
+          - FINALIZADO
+        statusPagamento:
+          type: string
+          enum:
+          - PENDENTE
+          - RECUSADO
+          - APROVADO
+        produtos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProdutoPedidoOutput'
+        totalPedido:
+          type: number
+    ListarClientesOutput:
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        cpf:
+          type: string
+        email:
+          type: string
+        ativo:
+          type: boolean
+    BuscarClienteOutput:
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        cpf:
+          type: string
+        email:
+          type: string
+        ativo:
+          type: boolean
