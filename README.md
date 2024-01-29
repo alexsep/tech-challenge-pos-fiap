@@ -48,13 +48,29 @@ Após isso podemos subir a aplicação:
 
 ## APIs
 
-As APIs da aplicação ficam acessíveis no endereço http://localhost:8080
+As APIs da aplicação ficam acessíveis no endereço `http://localhost:8080`, abaixo é possível ver a descrição das APIs e qual é a ordem de execução recomendada.
 
-APIs Disponíveis
+### Operações disponíveis
 As APIs disponíveis são:
 1. Criação, Edição e Busca do Cliente
 2. Criação, Edição, Remoção e Busca de Produto
 3. Busca de Produtos por Categoria
-4. Criação de pedidos sem identificação do cliente, pedido com o cliente e Busca de Pedidos
+4. Criação de pedidos sem identificação do cliente, pedido com o cliente, busca de Pedidos e atualização de status
+5. Realização e confirmação de pagamentos 
 
-Para utilizar as APIs importe o arquivo: https://github.com/pietroow/tech-challenge-pos-tech/blob/main/Tech-challenge.postman_collection.json no postman
+### Ordem de execução das APIs
+***Para realizar pedidos é necessário cadastrar pelo menos 1 produto***
+
+Com isso uma possível ordem para execução das APIs é:
+1. Criar produtos
+2. Criar pedidos sem identifição 
+3. Realizar pagamentos e atualizar status dos pedidos
+
+Outra ordem para execução das APIs é:
+1. Criar produtos
+2. Criar clientes
+3. Criar pedidos com e sem identifição 
+4. Realizar pagamentos e atualizar status dos pedidos
+
+
+Para utilizar as APIs importe o arquivo: 
