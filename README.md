@@ -1,6 +1,14 @@
 # Tech Challenge Fase 2
 
 Este projeto é uma aplicação backend construída seguindo os princípios da arquitetura limpa. Esta aplicação utilizar o MongoDB como banco de dados.
+O design do código foi estruturado da seguinte forma:
+
+![](docs/diagramas/Estrutura-codigo.png?raw=true)
+
+
+A infraestrutura da aplicação foi feita de forma que fosse possível executá-la em um ambiente Kubernetes, a imagem abaixo detalha como esta estrutura está definida:
+
+![](docs/diagramas/infraestrutura.png?raw=true)
 
 
 ## Executando a aplicação
@@ -9,14 +17,14 @@ Existem 3 formas de executar a aplicação e que estão descritas nos próximos 
 ### Executar a partir do projeto no github
 - Tenha o Docker instalado em sua máquina.
 - Clone o repositório para sua máquina local.
-- Execute o comando: docker compose up -d para subir a aplicação com o banco de dados.
+- Execute o comando: `docker compose up -d` para subir a aplicação com o banco de dados.
 - As APIs da aplicação ficam acessíveis no endereço http://localhost:8080
 
 ### Executar a partir do projeto no github para debug
 - Tenha o Docker instalado em sua máquina.
 - Clone o repositório para sua máquina local.
 - Altere o arquivo docker compose para que ele suba apenas o banco de dados.
-- Execute o comando: docker compose up -d para subir o banco de dados.
+- Execute o comando:` docker compose up -d` para subir o banco de dados.
 - Execute a classe `TechChallengeApplication` em sua IDE
 - As APIs da aplicação ficam acessíveis no endereço http://localhost:8080
 
@@ -25,8 +33,6 @@ Existem 3 formas de executar a aplicação e que estão descritas nos próximos 
 Para essa forma vamos utilizar a imagem do estado atual do repositório que foi publicada no dockerhub, o nome da imagem é `alexxsep/postech:1.1.0`.
 
 **É necessário ter o kubernetes com o kubectl configurado em sua máquina (durante os testes foi utilizado o Docker Desktop com o Kubernetes ativo).** 
-
-
 
 Primeiro é necessário subir a estrutura do banco de dados, essa estrutura fica em um namespace específico.
 - Acesse o diretório `kubernetes/database`
@@ -43,6 +49,8 @@ Após isso podemos subir a aplicação:
 - Execute o comando: `kubectl apply -f hpa.yaml`
 
 ***Caso queira utilizar outro serviço de banco de dados basta alterar o `Deployment.yaml` com a configuração da string de conexão do banco na variável de ambiente `MONGODB_CONNECTION_STRING`. Nesse caso não é necessário subir a estrutura do banco de dados que foi feita nos passos anteriores***
+
+
 
 
 
@@ -78,4 +86,7 @@ Outra ordem para execução das APIs é:
 4. Realizar pagamentos e atualizar status dos pedidos
 
 
-Para utilizar as APIs importe o arquivo: 
+### Utilizando as APIs 
+- Para fazer via postman importe o arquivo que está na pasta: `docs/postman-collections/Tech challenge.postman_collection.json`
+- Para pegar a documentação swagger baixe o arquivo yaml que está na pasta: `docs/swagger/api-docs.yaml`
+- Com a aplicação rodando acesse: http://localhost:8080/swagger-ui/index.html
