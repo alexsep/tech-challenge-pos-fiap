@@ -14,7 +14,7 @@ Foram criados dois namespaces para separar os contextos, no caso da aplicação 
 
 
 ## Executando a aplicação
-Existem 3 formas de executar a aplicação e que estão descritas nos próximos passos.
+Existem 3 formas de executar a aplicação que estão descritas nos próximos passos.
 
 ### Executar a partir do projeto no github
 - Tenha o Docker instalado em sua máquina.
