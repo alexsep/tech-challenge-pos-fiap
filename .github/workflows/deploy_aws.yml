@@ -34,10 +34,10 @@ jobs:
       - name: Atualizando Deployment com a nova tag da imagem Docker
         run: |
           IMAGE_TAG=${{ github.event.workflow_run.outputs.image_tag }}
-          sed -i "s|<IMAGE_TAG>|$IMAGE_TAG|g" ./kubernetes/application/Deployment.yml
+          sed -i "s|<IMAGE_TAG>|$IMAGE_TAG|g" ./kubernetes/application/Deployment.yaml
 
       - name: Aplicando as alterações no Kubernetes
         run: |
-          kubectl apply -f ./kubernetes/application/Service.yml
-          kubectl apply -f ./kubernetes/application/Deployment.yml
-          kubectl apply -f ./kubernetes/application/hpa.yml
+          kubectl apply -f ./kubernetes/application/Service.yaml
+          kubectl apply -f ./kubernetes/application/Deployment.yaml
+          kubectl apply -f ./kubernetes/application/hpa.yaml
