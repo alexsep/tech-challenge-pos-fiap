@@ -31,7 +31,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Set timestamp
+      - name: Set timestamp para gerar tag aleatória para a imagem
         id: set-timestamp
         run: echo "::set-output name=timestamp::$(date +%Y%m%d%H%M%S)"
 
@@ -42,3 +42,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: alexxsep/postech:${{ steps.set-timestamp.outputs.timestamp }}
+
+      - name: Settando a tag da imagem em um output
+        id: set-image-tag
+        run: echo "::set-output name=image_tag::alexxsep/postech:${{ steps.set-timestamp.outputs.timestamp }}"
